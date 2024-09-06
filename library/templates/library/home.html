@@ -1,0 +1,190 @@
+{% load static %}
+{% load library_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nexus Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo">NEXUS LIBRARY</span>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'history' %}">History</a></li>
+                <li><a href="{% url 'search_items' %}">Search</a></li>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+        
+        <div class="main-content">
+            
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            
+            <section class="hero">
+                <h1>Welcome to Nexus Library, {{ user.username }}!</h1>
+                <p>A smart and secure digital library management system for the modern age. Discover, borrow, and learn
+                    with our extensive collection.</p>
+                <a href="{% url 'explore' %}" class="explore-btn">Explore Books</a>
+            </section>
+
+            
+            <section id="recommendations" class="recommendations">
+                <h2>Recommended for You</h2>
+                <ul>
+                    {% for item in recommendations %}
+                    {% if item|is_book %}
+                    {% with item_status=item|get_item_status:user %}
+                    <li>
+                        {{ item.title }} by {{ item.author }} ({{ item.genre }}) - Status: <span
+                            class="status status-{{ item_status|lower }}">{{ item_status }}</span>
+                        {% if item|get_item_type == 'printedbook' %}
+                        {% if item_status == 'Available' and user_type != 'Guest' %}
+                        <form action="{% url 'borrow_item' item_type=item|get_item_type item_id=item.id %}"
+                            method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="borrow-btn">Borrow</button>
+                        </form>
+                        {% elif item_status == 'Unavailable' and user_type != 'Guest' %}
+                        <form action="{% url 'reserve_book' item_id=item.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="reserve-btn">Reserve</button>
+                        </form>
+                        {% elif user_type == 'Guest' %}
+                        <span class="guest-message">(Guests cannot borrow books)</span>
+                        {% endif %}
+                        {% else %}
+                        {% if item_status == 'Available' and user_type != 'Guest' %}
+                        <form action="{% url 'borrow_item' item_type=item|get_item_type item_id=item.id %}"
+                            method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="borrow-btn">Borrow</button>
+                        </form>
+                        {% elif user_type == 'Guest' %}
+                        <span class="guest-message">(Guests cannot borrow books)</span>
+                        {% endif %}
+                        {% endif %}
+                    </li>
+                    {% endwith %}
+                    {% endif %}
+                    {% empty %}
+                    <li>No recommendations available.</li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            
+            <section class="trending">
+                <h2>Trending Books</h2>
+                <ul>
+                    {% for item in trending %}
+                    {% if item|is_book %}
+                    {% with item_status=item|get_item_status:user %}
+                    <li>
+                        {{ item.title }} by {{ item.author }} ({{ item.genre }}) - Status: <span
+                            class="status status-{{ item_status|lower }}">{{ item_status }}</span>
+                        {% if item|get_item_type == 'printedbook' %}
+                        {% if item_status == 'Available' and user_type != 'Guest' %}
+                        <form action="{% url 'borrow_item' item_type=item|get_item_type item_id=item.id %}"
+                            method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="borrow-btn">Borrow</button>
+                        </form>
+                        {% elif item_status == 'Unavailable' and user_type != 'Guest' %}
+                        <form action="{% url 'reserve_book' item_id=item.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="reserve-btn">Reserve</button>
+                        </form>
+                        {% elif user_type == 'Guest' %}
+                        <span class="guest-message">(Guests cannot borrow books)</span>
+                        {% endif %}
+                        {% else %}
+                        {% if item_status == 'Available' and user_type != 'Guest' %}
+                        <form action="{% url 'borrow_item' item_type=item|get_item_type item_id=item.id %}"
+                            method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="borrow-btn">Borrow</button>
+                        </form>
+                        {% elif user_type == 'Guest' %}
+                        <span class="guest-message">(Guests cannot borrow books)</span>
+                        {% endif %}
+                        {% endif %}
+                    </li>
+                    {% endwith %}
+                    {% endif %}
+                    {% empty %}
+                    <li>No trending books available.</li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            
+            <section class="research-papers">
+                <h2>Research Papers</h2>
+                <ul>
+                    {% for item in research_papers %}
+                    <li>
+                        {{ item.title }} by {{ item.author }} ({{ item.genre }}) - Access: {{ item.access_level }}
+                        {% if user_type|lower == 'faculty' or user_type|lower == 'researcher' %}
+                        <a href="{% url 'request_item' item.id %}">Request Access</a>
+                        {% else %}
+                        <span class="guest-message">(As a {{ user_type|default:'User' }}, you cannot access research
+                            papers)</span>
+                        {% endif %}
+                    </li>
+                    {% empty %}
+                    <li>No research papers available.</li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            
+            <section class="analytics">
+                <h2>Library Insights</h2>
+                <h3>Most Borrowed Books</h3>
+                <ul>
+                    {% for book in most_borrowed %}
+                    <li>{{ book.title }} (Borrowed {{ book.total }} times)</li>
+                    {% empty %}
+                    <li>No data available.</li>
+                    {% endfor %}
+                </ul>
+                <h3>Popular Genres</h3>
+                <ul>
+                    {% for genre in popular_genres %}
+                    <li>{{ genre.genre }} (Borrowed {{ genre.total }} times)</li>
+                    {% empty %}
+                    <li>No data available.</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile - Nexus Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+
+<body>
+    <div class="container">
+       
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo">NEXUS LIBRARY</span>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'profile' %}" class="active">Profile</a></li>
+                <li><a href="{% url 'history' %}">History</a></li>
+                <li><a href="{% url 'search_items' %}">Search</a></li>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+       
+        <div class="main-content">
+            <section class="profile">
+                <h2>Your Profile</h2>
+                <div class="profile-card">
+                    <h3>User Information</h3>
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>User Type:</strong> {{ user_type|default:"Unknown" }}</p>
+                   
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>

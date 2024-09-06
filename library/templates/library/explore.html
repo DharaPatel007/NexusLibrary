@@ -1,0 +1,107 @@
+{% load static %}
+{% load library_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Explore Books - Nexus Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/explore.css' %}">
+</head>
+
+<body>
+    <div class="container">
+       
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo">NEXUS LIBRARY</span>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'history' %}">History</a></li>
+                <li><a href="{% url 'search_items' %}">Search</a></li>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+       
+        <div class="main-content">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <section class="categories">
+                <h2>Explore by Category</h2>
+                <div class="category-blocks">
+                    {% for genre in genres %}
+                    <a href="{% url 'explore' %}?genre={{ genre|urlencode }}" class="category-block">
+                        {{ genre }}
+                    </a>
+                    {% empty %}
+                    <p>No categories available.</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+            {% if selected_genre %}
+            <section class="books">
+                <h2>Books in {{ selected_genre }}</h2>
+                <ul>
+                    {% for book in books %}
+                    {% with item_status=book|get_item_status:user %}
+                    <li>
+                        {{ book.title }} by {{ book.author }} ({{ book.genre }}) - Status: <span
+                            class="status status-{{ item_status|lower }}">{{ item_status }}</span>
+                        {% if book|get_item_type == 'printedbook' %}
+                        {% if item_status == 'Available' and user_type != 'Guest' %}
+                        <form action="{% url 'borrow_item' item_type=book|get_item_type item_id=book.id %}"
+                            method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="borrow-btn">Borrow</button>
+                        </form>
+                        {% elif item_status == 'Unavailable' and user_type != 'Guest' %}
+                        <form action="{% url 'reserve_book' item_id=book.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="reserve-btn">Reserve</button>
+                        </form>
+                        {% elif user_type == 'Guest' %}
+                        <span class="guest-message">(Guests cannot borrow books)</span>
+                        {% endif %}
+                        {% else %}
+                        {% if item_status == 'Available' and user_type != 'Guest' %}
+                        <form action="{% url 'borrow_item' item_type=book|get_item_type item_id=book.id %}"
+                            method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="borrow-btn">Borrow</button>
+                        </form>
+                        {% elif user_type == 'Guest' %}
+                        <span class="guest-message">(Guests cannot borrow books)</span>
+                        {% endif %}
+                        {% endif %}
+                    </li>
+                    {% endwith %}
+                    {% empty %}
+                    <li>No books available in this category.</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+{% load static %}
+{% load library_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results - Nexus Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search_results.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo">NEXUS LIBRARY</span>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'history' %}">History</a></li>
+                <li><a href="{% url 'search_items' %}" class="active">Search</a></li>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+        
+        <div class="main-content">
+            
+            <section class="search-section">
+                <h2>Search Library Items</h2>
+                <form method="GET" action="{% url 'search_items' %}">
+                    <input type="text" name="q" value="{{ query|default:'' }}"
+                        placeholder="Enter title, genre, or author...">
+                    <select name="type">
+                        <option value="keyword" {% if search_type == 'keyword' %}selected{% endif %}>Keyword</option>
+                        <option value="genre" {% if search_type == 'genre' %}selected{% endif %}>Genre</option>
+                        <option value="author" {% if search_type == 'author' %}selected{% endif %}>Author</option>
+                    </select>
+                    <button type="submit">Search</button>
+                </form>
+            </section>
+
+            
+            {% if query %}
+            <section class="results">
+                <h2>Search Results for "{{ query }}"</h2>
+                <ul>
+                    {% for item in results %}
+                    <li>
+                        {{ item.title }} by {{ item.author }} ({{ item.genre }})
+                        — <em>{{ item|get_item_type_capitalized }}</em>
+                        {% if item|is_book %}
+                        - Status: {{ item|get_item_status:user }}
+                        {% if item|get_item_type == 'printedbook' %}
+                        (Copies Available: {{ item.copies_available }})
+                        {% endif %}
+                        {% if item|get_item_status:user == 'Available' and user_type != 'Guest' %}
+                        <form action="{% url 'borrow_item' item_type=item|get_item_type item_id=item.id %}"
+                            method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Borrow</button>
+                        </form>
+                        {% elif user_type == 'Guest' %}
+                        <span>(Guests cannot borrow books)</span>
+                        {% endif %}
+                        {% elif item|is_research_paper %}
+                        - Access: {{ item.access_level }}
+                        {% if user_type|lower == 'faculty' or user_type|lower == 'researcher' %}
+                        <a href="{% url 'request_item' item.id %}">Request Access</a>
+                        {% else %}
+                        <span>(As a {{ user_type|default:'User' }}, you cannot access research papers)</span>
+                        {% endif %}
+                        {% endif %}
+                    </li>
+                    {% empty %}
+                    <li>No results found.</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+
+            {% if user_type == "Guest" %}
+            <p><em>Note: As a guest, you have limited access to research papers.</em></p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

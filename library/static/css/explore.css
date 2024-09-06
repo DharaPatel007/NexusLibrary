@@ -1,0 +1,79 @@
+.categories {
+    margin-bottom: 40px;
+}
+
+.category-blocks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.category-block {
+    background-color: #f0f0f0;
+    padding: 15px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.category-block:hover {
+    background-color: #ddd;
+}
+
+.books h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.books ul {
+    list-style: none;
+    padding: 0;
+}
+
+.books li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.books .borrow-btn,
+.books .reserve-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.books .borrow-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.books .reserve-btn {
+    background-color: #ffc107;
+    color: black;
+}
+
+.books .guest-message {
+    color: #777;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.books .status {
+    font-weight: bold;
+}
+
+.books .status-available {
+    color: #28a745;
+}
+
+.books .status-unavailable {
+    color: #dc3545;
+}

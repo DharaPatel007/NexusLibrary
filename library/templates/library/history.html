@@ -1,0 +1,65 @@
+{% load static %}
+{% load library_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Borrowing History - Nexus Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/history.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo">NEXUS LIBRARY</span>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'history' %}" class="active">History</a></li>
+                <li><a href="{% url 'search_items' %}">Search</a></li>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <section class="history">
+                <h2>Your Borrowing History</h2>
+                <ul>
+                    {% for borrowing in borrowing_history %}
+                    <li>
+                        {% with item=borrowing.get_item %}
+                        {{ item.title }} - Borrowed on {{ borrowing.borrow_date }} - Due on {{ borrowing.due_date }}
+                        {% if borrowing.return_date %}
+                        - Returned on {{ borrowing.return_date }}
+                        {% if borrowing.fine > 0 %}
+                        - Fine: Rs.{{ borrowing.fine|floatformat:2 }}
+                        {% endif %}
+                        {% else %}
+                        <form action="{% url 'return_item' item_type=item|get_item_type item_id=item.id %}"
+                            method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Return</button>
+                        </form>
+                        {% endif %}
+                        {% endwith %}
+                    </li>
+                    {% empty %}
+                    <li>No borrowing history available.</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>

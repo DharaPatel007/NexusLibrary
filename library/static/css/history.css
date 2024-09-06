@@ -1,0 +1,75 @@
+.history {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.history h2 {
+    font-size: 2rem;
+    color: #1a3c5e;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.history h2::after {
+    content: '';
+    width: 50px;
+    height: 3px;
+    background-color: #17a2b8;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* History list */
+.history ul {
+    list-style: none;
+}
+
+.history li {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.history li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Fine display */
+.history li span {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+/* Return button */
+.history button {
+    background-color: #17a2b8;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.history button:hover {
+    background-color: #138496;
+}
+
+@media (max-width: 768px) {
+    .history h2 {
+        font-size: 1.5rem;
+    }
+
+    .history li {
+        padding: 15px;
+    }
+}

@@ -1,0 +1,330 @@
+
+.hero {
+    background: linear-gradient(135deg, #1a3c5e, #2a5d8f);
+    color: #fff;
+    text-align: center;
+    padding: 60px 20px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    margin: 15px 0 25px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.explore-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #17a2b8;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.explore-btn:hover {
+    background-color: #138496;
+}
+
+/* Messages section */
+.messages {
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+    text-align: center;
+}
+
+.message {
+    padding: 10px 20px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Recommendations section */
+.recommendations {
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+}
+
+.recommendations h2 {
+    font-size: 2rem;
+    color: #1a3c5e;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.recommendations h2::after {
+    content: '';
+    width: 50px;
+    height: 3px;
+    background-color: #17a2b8;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.recommendations ul {
+    list-style: none;
+}
+
+.recommendations li {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recommendations li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.recommendations li form {
+    display: inline;
+}
+
+.recommendations li button {
+    background-color: #17a2b8;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.recommendations li button:hover {
+    background-color: #138496;
+}
+
+.recommendations li span {
+    color: #6c757d;
+}
+
+/* Trending section */
+.trending {
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+}
+
+.trending h2 {
+    font-size: 2rem;
+    color: #1a3c5e;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.trending h2::after {
+    content: '';
+    width: 50px;
+    height: 3px;
+    background-color: #17a2b8;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.trending ul {
+    list-style: none;
+}
+
+.trending li {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trending li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.trending li form {
+    display: inline;
+}
+
+.trending li button {
+    background-color: #17a2b8;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.trending li button:hover {
+    background-color: #138496;
+}
+
+.trending li span {
+    color: #6c757d;
+}
+
+/* Research Papers section */
+.research-papers {
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+}
+
+.research-papers h2 {
+    font-size: 2rem;
+    color: #1a3c5e;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.research-papers h2::after {
+    content: '';
+    width: 50px;
+    height: 3px;
+    background-color: #17a2b8;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.research-papers ul {
+    list-style: none;
+}
+
+.research-papers li {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.research-papers li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.research-papers li a {
+    color: #17a2b8;
+    text-decoration: none;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+}
+
+.research-papers li a:hover {
+    color: #138496;
+}
+
+.research-papers li span {
+    color: #6c757d;
+}
+
+/* Analytics section */
+.analytics {
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+}
+
+.analytics h2 {
+    font-size: 2rem;
+    color: #1a3c5e;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.analytics h2::after {
+    content: '';
+    width: 50px;
+    height: 3px;
+    background-color: #17a2b8;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.analytics h3 {
+    font-size: 1.5rem;
+    color: #1a3c5e;
+    margin: 20px 0 10px;
+}
+
+.analytics ul {
+    list-style: none;
+}
+
+.analytics li {
+    background-color: #f9f9f9;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .hero {
+        padding: 40px 15px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .recommendations h2,
+    .trending h2,
+    .research-papers h2,
+    .analytics h2 {
+        font-size: 1.5rem;
+    }
+
+    .analytics h3 {
+        font-size: 1.3rem;
+    }
+
+    .recommendations li,
+    .trending li,
+    .research-papers li {
+        padding: 10px;
+    }
+}
