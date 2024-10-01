@@ -142,4 +142,4 @@ class BookReservation(models.Model):
         unique_together = ('user', 'printed_book', 'is_active')
 
     def __str__(self):
-        return f"Reservation for {self.printed_book.title} by {self.user.username}"
+        return f"Reservation for {self.printed_book.title} by {self.user.username}"# Added models 
