@@ -348,4 +348,4 @@ def reserve_book(request, item_id):
         genre = request.GET.get('genre', '')
         return redirect('explore' + (f'?genre={genre}' if genre else ''))
 
-    return redirect('home')
+    return redirect('home')# Updated views 
